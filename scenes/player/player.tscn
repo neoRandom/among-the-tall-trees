@@ -1,0 +1,50 @@
+[gd_scene load_steps=9 format=3 uid="uid://b5bsnsi0ad0ox"]
+
+[ext_resource type="Texture2D" uid="uid://cjvf3ee5lglwy" path="res://icon.svg" id="1_3vyb7"]
+[ext_resource type="Script" uid="uid://xtlg14vwpmkj" path="res://scripts/player/player.gd" id="1_g2els"]
+[ext_resource type="Script" uid="uid://gtdqcxsnejkl" path="res://scripts/player/eyes.gd" id="3_qhqgy"]
+[ext_resource type="Script" uid="uid://8tslhurygbq0" path="res://scripts/components/movement_component.gd" id="4_lvxji"]
+[ext_resource type="PackedScene" uid="uid://wg4uhxjft3f1" path="res://scenes/components/health_component.tscn" id="5_75vfm"]
+[ext_resource type="PackedScene" uid="uid://bjyywkw3ky1dp" path="res://scenes/components/hurtbox_component.tscn" id="6_0owmy"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_g2els"]
+size = Vector2(128, 128)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_75vfm"]
+size = Vector2(164, 160)
+
+[node name="Player" type="CharacterBody2D"]
+motion_mode = 1
+script = ExtResource("1_g2els")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+unique_name_in_owner = true
+texture = ExtResource("1_3vyb7")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_g2els")
+
+[node name="Eyes" type="Camera2D" parent="."]
+zoom = Vector2(0.5, 0.5)
+process_callback = 0
+position_smoothing_enabled = true
+position_smoothing_speed = 7.5
+script = ExtResource("3_qhqgy")
+
+[node name="Components" type="Node2D" parent="."]
+
+[node name="MovementComponent" type="Node2D" parent="Components"]
+unique_name_in_owner = true
+script = ExtResource("4_lvxji")
+walk_speed = 500.0
+metadata/_custom_type_script = "uid://8tslhurygbq0"
+
+[node name="HealthComponent" parent="Components" instance=ExtResource("5_75vfm")]
+
+[node name="HurtboxComponent" parent="Components" node_paths=PackedStringArray("health_component") instance=ExtResource("6_0owmy")]
+health_component = NodePath("../HealthComponent")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Components/HurtboxComponent"]
+shape = SubResource("RectangleShape2D_75vfm")
+
+[connection signal="die" from="Components/HealthComponent" to="." method="_on_health_component_die"]

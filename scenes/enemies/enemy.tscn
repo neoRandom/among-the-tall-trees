@@ -1,0 +1,28 @@
+[gd_scene load_steps=4 format=3 uid="uid://cgo41esst14m2"]
+
+[ext_resource type="PackedScene" uid="uid://ds4am7syuse8a" path="res://scenes/components/hitbox_component.tscn" id="1_6xk8f"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ykcao"]
+size = Vector2(40, 40)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8e3ao"]
+size = Vector2(56, 58)
+
+[node name="Enemy" type="CharacterBody2D"]
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+color = Color(0.5990292, 0.03142973, 0.037709672, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_ykcao")
+
+[node name="Components" type="Node2D" parent="."]
+
+[node name="HitboxComponent" parent="Components" instance=ExtResource("1_6xk8f")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Components/HitboxComponent"]
+shape = SubResource("RectangleShape2D_8e3ao")

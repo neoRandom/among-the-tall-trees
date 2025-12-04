@@ -1,0 +1,2 @@
+class_name BaseComponent
+extends Node2D
